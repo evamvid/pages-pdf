@@ -10,6 +10,7 @@ The Scripts
 * pages-pdf.py is the working console version.
 * pages-pdf-gui.py is the working GUI version. To make it run without a console in Windows.
 * pages-pdf.py is the old script, that I wrote all on my lonesome before going to SO for help (it turns out that that the `ZipFile` module I was trying to use didn't have the functionality I needed). It is here for historical/legacy purposes, and to prove how much I needed the help I got from SO.
+* py2.7install.bat is a Windows shell script that will install [Chocolatey](https://chocolatey.org/) and then [Python 2.7](http://www.python.org/download/releases/2.7.6/)(2.7.6, the most current version of 2.7) in the main `C:\` drive. 
 
 Attributions/Acknowledgements
 =============================
