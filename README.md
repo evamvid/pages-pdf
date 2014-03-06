@@ -1,7 +1,7 @@
 pages-pdf
 =========
 
-A simple python script that converts a .pages document into a PDF. ~~GUI version~~, command-line version, and executables coming soon! (hopefully)
+A simple python script that converts a .pages document into a PDF. Command-line version (executable without the Python shell), and executables coming soon! (hopefully)
 
 The scripts _should_ be cross-platform but they have only been tested on Windows.
 
@@ -13,5 +13,5 @@ The Scripts
 
 Attributions/Acknowledgements
 =============================
-If not for the help of StackOverflow users [Martineau](), [Ruben Bermudez](), [J.F. Sebastian](http://stackoverflow.com/users/4279/j-f-sebastian), and [shaktimaan](), I probably would not have the program running right now.
+If not for the help of StackOverflow users [Martineau](http://stackoverflow.com/users/355230/martineau), [Ruben Bermudez](http://stackoverflow.com/users/2397017/ruben-bermudez), [J.F. Sebastian](http://stackoverflow.com/users/4279/j-f-sebastian), and [shaktimaan](http://stackoverflow.com/users/2276527/shaktimaan), I probably would not have the program running right now.
 You can see the individual questions where they completely overhauled my code until it was barely recognizable as mine [here](), [here](), and [here]().
