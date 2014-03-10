@@ -7,18 +7,30 @@ import tempfile
 from zipfile import ZipFile
 import subprocess
 
-
 class uiclass():
     def __init__(self,root):
+        global b
         b = Button(root, text="Browse", command=self.callback)
+        global w
         w = Label(root, text="Please choose a .pages file to convert.")
+        global quit
+        quit = Label(root, text="Press 'q' to quit at any time")
         w.pack()
         b.pack()
+        quit.pack()
+        
+        
+    #def quitfn(event):
+    #    frame.focus_set()
+    #    print ("hello")
+    #    window.destroy()
 
     def callback(self):
         global y
         y = askopenfilename(parent=root, defaultextension=".pages")
         self.view_file(y)
+        w.pack_forget()
+        b.pack_forget()
 		
     def view_file(self,filepath):
 
@@ -39,13 +51,19 @@ class uiclass():
             # delete the temporary subdirectory created (along with pdf file in it)
             shutil.rmtree(os.path.join(tempdir, os.path.split(PREVIEW_PATH)[0]))
             print('Check out the PDF! It\'s located at "{}".'.format(final_PDF))
+            l2.pack_forget()
             subprocess.Popen(filename + ".pdf", shell=True).wait()
             file_extension = ".pdf"
         else:
             sys.exit('Sorry, that isn\'t a .pages file.')
 
+def quitfn(event=None):   
+    root.destroy()
+            
 if __name__ == '__main__':
     root = Tk()
     uiclass(root)
     root.wm_title("Pages to PDF")
+    root.bind("q", quitfn)
     root.mainloop()
+    
