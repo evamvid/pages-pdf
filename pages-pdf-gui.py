@@ -9,15 +9,36 @@ import subprocess
 
 class uiclass():
     def __init__(self,root):
-        global b
-        b = Button(root, text="Browse", command=self.callback)
         global w
-        w = Label(root, text="Please choose a .pages file to convert.")
         global quit
+        global errlbl
+        global b
+        global fbv
+        global fv
+        global qbt
+        w = Label(root, text="Please choose a .pages file to convert.")
         quit = Label(root, text="Press 'q' to quit at any time")
+        errlbl = Label(root, text="Error converting file.")
+        b = Button(root, text="Browse", command=self.callback)
+        fbv = Button(root, text="Click here to open PDF location", command=self.dirview)
+        fv = Button(root, text="Click here to open PDF", command=self.fileview)
+        qbt = Button(root, text="Click here to quit", command=self.qbt)
+        frame = Frame(root, width=100)
         w.pack()
         b.pack()
         quit.pack()
+        frame.pack()
+    def dirview(self):
+        if sys.platform=='win32':
+            viewfile = filename + ".pdf"
+            subprocess.Popen(r'explorer /select,'+ viewfile)
+        elif sys.platform=='darwin':
+            subprocess.Popen(['open', viewfile])
+        else:
+            try:
+                subprocess.Popen(['xdg-open', viewfile])
+            except OSError:
+                pass
         
     def callback(self):
         global y
@@ -25,13 +46,22 @@ class uiclass():
         self.view_file(y)
         w.pack_forget()
         b.pack_forget()
+        quit.pack_forget()
+    
+    def fileview(self):
+        subprocess.Popen(filename + ".pdf", shell=True).wait()
+    
+    def qbt(self):
+        root.destroy()
 		
     def view_file(self,filepath):
 
         PREVIEW_PATH = 'QuickLook/Preview.pdf'  # archive member path
         #pages_file = raw_input('Enter the path to the .pages file in question: ')
+        global pages_file
         pages_file = y
         pages_file = os.path.abspath(pages_file)
+        global filename
         filename, file_extension = os.path.splitext(pages_file)
         if file_extension == ".pages":
             tempdir = tempfile.gettempdir()
@@ -39,16 +69,22 @@ class uiclass():
             with ZipFile(pages_file, 'r') as zipfile:
                 zipfile.extract(PREVIEW_PATH, tempdir)
             if not os.path.isfile(temp_filename):  # extract failure?
-                sys.exit('unable to extract {} from {}'.format(PREVIEW_PATH, pages_file))
+                errlbl = Label (root, text = "Unable to extract {} from {}.".format(PREVIEW_PATH, pages_file))
+                errlbl.pack()
             final_PDF = filename + '.pdf'
             shutil.copy2(temp_filename, final_PDF)  # copy and rename extracted file
-            # delete the temporary subdirectory created (along with pdf file in it)
-            shutil.rmtree(os.path.join(tempdir, os.path.split(PREVIEW_PATH)[0]))
-            print('Check out the PDF! It\'s located at "{}".'.format(final_PDF))
-            subprocess.Popen(filename + ".pdf", shell=True).wait()
+            shutil.rmtree(os.path.join(tempdir, os.path.split(PREVIEW_PATH)[0])) # delete the temporary subdirectory created (along with pdf file in it)
+            fv.pack()
+            fbv.pack()
+            qbt.pack()
             file_extension = ".pdf"
         else:
-            sys.exit('Sorry, that isn\'t a .pages file.')
+            global invalid
+            invalid = Label(root, text='Sorry, that isn\'t a .pages file.')
+            invalid.pack()
+            quit = Label(root, text="Press 'q' to quit...")
+            
+            
 
 def quitfn(event=None):   
     root.destroy()
