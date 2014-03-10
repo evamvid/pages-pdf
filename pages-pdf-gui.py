@@ -19,12 +19,6 @@ class uiclass():
         b.pack()
         quit.pack()
         
-        
-    #def quitfn(event):
-    #    frame.focus_set()
-    #    print ("hello")
-    #    window.destroy()
-
     def callback(self):
         global y
         y = askopenfilename(parent=root, defaultextension=".pages")
@@ -51,7 +45,6 @@ class uiclass():
             # delete the temporary subdirectory created (along with pdf file in it)
             shutil.rmtree(os.path.join(tempdir, os.path.split(PREVIEW_PATH)[0]))
             print('Check out the PDF! It\'s located at "{}".'.format(final_PDF))
-            l2.pack_forget()
             subprocess.Popen(filename + ".pdf", shell=True).wait()
             file_extension = ".pdf"
         else:
